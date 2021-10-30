@@ -17,7 +17,7 @@ Function list
  3.recyclerview
  4.Spdata
  5.toString
- 6。动态id
+ 6.dynamic id
  7.Windowutil
  8.Timmer
  9.ClickUtils

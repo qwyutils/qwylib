@@ -6,10 +6,10 @@ Add it in your root build.gradle at the end of repositories:
 			maven { url 'https://jitpack.io' }
 		}
 	}
-Step 2. Add the dependency
+Step 2. Add the dependencyCancel changes
 
 	dependencies {
-	        implementation 'com.github.qwyutils:qwylib:Tag'
+	        implementation 'com.github.qwyutils:qwylib:1.0.0'
 	}
 Function list
  1.ToastUtils

@@ -8,9 +8,9 @@ Add it in your root build.gradle at the end of repositories:
 	}
 Step 2. Add the dependencyCancel changes
 
-	{
+	
 	        implementation 'com.github.qwyutils:qwylib:1.0.0'
-	}
+	
 Function list
  1.ToastUtils
  2.okhttp

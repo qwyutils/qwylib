@@ -13,6 +13,7 @@ public class DataUtils {
      */
     public static Boolean default_boolean = true;
     public static String default_string = "";
+    public static int default_int = -1;
 
     public static void setDefault_boolean(Boolean default_boolean) {
         DataUtils.default_boolean = default_boolean;
@@ -22,31 +23,76 @@ public class DataUtils {
         DataUtils.default_string = ds;
     }
 
-    //Boolean封装获取
-    public static Boolean RB(String s) {
-        return Boolean.valueOf(AppContext.getContext().getSharedPreferences("configure",
-                0).getBoolean(s, default_boolean));
+    public static void setDefault_int(int default_int) {
+        DataUtils.default_int = default_int;
     }
 
-    //Boolean封装得到
-    public static void SB(String paramString, Boolean paramBoolean) {
+    /**
+     * Int相关
+     */
+    //Int封装获取
+    public static int ReadI(String key) {
+        return AppContext.getContext().getSharedPreferences("configure",
+                0).getInt(key, default_int);
+    }
+
+    //Int封装获取
+    public static int ReadI(String key, int def_values) {
+        return AppContext.getContext().getSharedPreferences("configure",
+                0).getInt(key, def_values);
+    }
+
+    //Int封装设置,保存
+    public static void SaveI(String key, int value) {
         SharedPreferences.Editor localEditor = AppContext.getContext()
                 .getSharedPreferences("configure", 0).edit();
-        localEditor.putBoolean(paramString, paramBoolean.booleanValue());
+        localEditor.putInt(key, value);
         localEditor.commit();
     }
 
-    //String封装获取
-    public static String RS(String s) {
-        return AppContext.getContext().getSharedPreferences("configure", 0).getString(
-                s, default_string);
+    /**
+     * Boolean相关
+     */
+    //Boolean封装获取
+    public static Boolean ReadB(String key) {
+        return Boolean.valueOf(AppContext.getContext().getSharedPreferences("configure",
+                0).getBoolean(key, default_boolean));
     }
 
-    //String封装得到
-    public static void SS(String s1, String s2) {
+    //Boolean封装获取
+    public static Boolean ReadB(String key, boolean def) {
+        return Boolean.valueOf(AppContext.getContext().getSharedPreferences("configure",
+                0).getBoolean(key, def));
+    }
+
+    //Boolean封装设置,保存
+    public static void SaveB(String key, Boolean value) {
         SharedPreferences.Editor localEditor = AppContext.getContext()
                 .getSharedPreferences("configure", 0).edit();
-        localEditor.putString(s1, s2);
+        localEditor.putBoolean(key, value.booleanValue());
+        localEditor.commit();
+    }
+
+    /**
+     * String相关
+     */
+    //String封装获取
+    public static String ReadS(String key) {
+        return AppContext.getContext().getSharedPreferences("configure", 0).getString(
+                key, default_string);
+    }
+
+    //String封装获取:有默认值
+    public static String ReadS(String key, String def_value) {
+        return AppContext.getContext().getSharedPreferences("configure", 0).getString(
+                key, def_value);
+    }
+
+    //String封装设置,保存
+    public static void SaveS(String key, String value) {
+        SharedPreferences.Editor localEditor = AppContext.getContext()
+                .getSharedPreferences("configure", 0).edit();
+        localEditor.putString(key, value);
         localEditor.commit();
     }
 }

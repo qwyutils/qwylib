@@ -16,19 +16,27 @@ public class TimerUtils {
     private static Timer timerLoop;
     private static TimerTask timerLoopTask;
 
-    private static HashMap<Integer, ITimer> iTimerHashMap = new HashMap<>();
+    private static HashMap<String, ITimer> iTimerHashMap = new HashMap<>();
 
-    private static HashMap<Integer, Timer> timerHashMap = new HashMap<>();
+    private static HashMap<String, Timer> timerHashMap = new HashMap<>();
     ;
-    private static HashMap<Integer, TimerTask> timerTaskHashMap = new HashMap<>();
+    private static HashMap<String, TimerTask> timerTaskHashMap = new HashMap<>();
 
-    private static HashMap<Integer, Integer> time_HashMap = new HashMap<>();
+    private static HashMap<String, Integer> time_HashMap = new HashMap<>();
 
     private static Handler mainHandler = new Handler(Looper.getMainLooper());
 
     private static int timeJG = 1000;
 
     public static void startTimerLoop(final int id, final ITimer iTimer) {
+        startTimerLoop(String.valueOf(id), iTimer);
+    }
+
+    public static void startTimerLoop(final Object id, final ITimer iTimer) {
+        startTimerLoop(TypeChange.toString(id), iTimer);
+    }
+
+    public static void startTimerLoop(final String id, final ITimer iTimer) {
         stopTimerLoop(id);
         iTimerHashMap.put(id, iTimer);
 
@@ -54,7 +62,7 @@ public class TimerUtils {
             timerHashMap.get(id).schedule(timerTaskHashMap.get(id), 0, time_HashMap.get(id));
     }
 
-    public static void stopTimerLoop(int id) {
+    public static void stopTimerLoop(String id) {
         if (!timerHashMap.containsKey(id)) return;
 
         iTimerHashMap.remove(id);
@@ -83,14 +91,14 @@ public class TimerUtils {
     }
 
     public static void stopAll() {
-        List<Integer> integerList = new ArrayList<>();
+        List<String> integerList = new ArrayList<>();
         for (Iterator iter = iTimerHashMap.entrySet().iterator(); iter.hasNext(); ) {
             Map.Entry element = (Map.Entry) iter.next();
             Object strKey = element.getKey();
-            Integer ii = (Integer) strKey;
+            String ii = (String) strKey;
             integerList.add(ii);
         }
-        for (int ii : integerList) {
+        for (String ii : integerList) {
             stopTimerLoop(ii);
         }
     }

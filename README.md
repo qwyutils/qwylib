@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/qwyutils/qwylib.svg)](https://jitpack.io/#qwyutils/qwylib)
+
 Add it in your root build.gradle at the end of repositories:
 
 	allprojects {

@@ -28,15 +28,15 @@ public class TimerUtils {
 
     private static int timeJG = 1000;
 
-    public static void startTimerLoop(final int id, final ITimer iTimer) {
+    public static void startTimerLoop(int id, ITimer iTimer) {
         startTimerLoop(String.valueOf(id), iTimer);
     }
 
-    public static void startTimerLoop(final Object id, final ITimer iTimer) {
+    public static void startTimerLoop(Object id, ITimer iTimer) {
         startTimerLoop(TypeChange.toString(id), iTimer);
     }
 
-    public static void startTimerLoop(final String id, final ITimer iTimer) {
+    public static void startTimerLoop(final String id, ITimer iTimer) {
         stopTimerLoop(id);
         iTimerHashMap.put(id, iTimer);
 
@@ -60,6 +60,15 @@ public class TimerUtils {
         timeJG = 1000;
         if (timerHashMap.get(id) != null && timerTaskHashMap.get(id) != null)
             timerHashMap.get(id).schedule(timerTaskHashMap.get(id), 0, time_HashMap.get(id));
+    }
+
+    public static void stopTimerLoop(Object id) {
+        stopTimerLoop(TypeChange.toString(id));
+    }
+
+
+    public static void stopTimerLoop(int id) {
+        stopTimerLoop(String.valueOf(id));
     }
 
     public static void stopTimerLoop(String id) {

@@ -31,19 +31,19 @@ public class DataUtils {
      * Int相关
      */
     //Int封装获取
-    public static int ReadI(String key) {
+    public static int getInt(String key) {
         return AppContext.getContext().getSharedPreferences("configure",
                 0).getInt(key, default_int);
     }
 
     //Int封装获取
-    public static int ReadI(String key, int def_values) {
+    public static int getInt(String key, int def_values) {
         return AppContext.getContext().getSharedPreferences("configure",
                 0).getInt(key, def_values);
     }
 
     //Int封装设置,保存
-    public static void SaveI(String key, int value) {
+    public static void setInt(String key, int value) {
         SharedPreferences.Editor localEditor = AppContext.getContext()
                 .getSharedPreferences("configure", 0).edit();
         localEditor.putInt(key, value);
@@ -54,19 +54,19 @@ public class DataUtils {
      * Boolean相关
      */
     //Boolean封装获取
-    public static Boolean ReadB(String key) {
+    public static Boolean getBoolean(String key) {
         return Boolean.valueOf(AppContext.getContext().getSharedPreferences("configure",
                 0).getBoolean(key, default_boolean));
     }
 
     //Boolean封装获取
-    public static Boolean ReadB(String key, boolean def) {
+    public static Boolean getBoolean(String key, boolean def) {
         return Boolean.valueOf(AppContext.getContext().getSharedPreferences("configure",
                 0).getBoolean(key, def));
     }
 
     //Boolean封装设置,保存
-    public static void SaveB(String key, Boolean value) {
+    public static void setBoolean(String key, Boolean value) {
         SharedPreferences.Editor localEditor = AppContext.getContext()
                 .getSharedPreferences("configure", 0).edit();
         localEditor.putBoolean(key, value.booleanValue());
@@ -77,19 +77,19 @@ public class DataUtils {
      * String相关
      */
     //String封装获取
-    public static String ReadS(String key) {
+    public static String getString(String key) {
         return AppContext.getContext().getSharedPreferences("configure", 0).getString(
                 key, default_string);
     }
 
     //String封装获取:有默认值
-    public static String ReadS(String key, String def_value) {
+    public static String getString(String key, String def_value) {
         return AppContext.getContext().getSharedPreferences("configure", 0).getString(
                 key, def_value);
     }
 
     //String封装设置,保存
-    public static void SaveS(String key, String value) {
+    public static void setString(String key, String value) {
         SharedPreferences.Editor localEditor = AppContext.getContext()
                 .getSharedPreferences("configure", 0).edit();
         localEditor.putString(key, value);

@@ -6,6 +6,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.qwy.library.data.DataUtils;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -14,7 +16,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Button btn = findViewById(R.id.btn);
         btn.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(final View v) {}
+            public void onClick(final View v) {
+                DataUtils.getString("");
+            }
+
         });
     }
 

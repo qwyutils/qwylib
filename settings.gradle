@@ -1,2 +1,2 @@
-include ':app', ':qlibrary'
+include ':app', ':library'
 rootProject.name='qwylib'

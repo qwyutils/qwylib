@@ -2,19 +2,30 @@ package com.qwy.library.utils;
 
 import java.util.HashMap;
 
+/**
+ * ***时间内仅执行一次***
+ * ①if(ClickUtils.isFastClick(v.getId()))return; //执行任务
+ * ***时间内仅执行一次双击***
+ * ②if(ClickUtils.isTwoClickOutside(v.getId()))return; //执行任务
+ */
 public class ClickUtils {
 
     private static final int MIN_CLICK_DELAY_TIME = 2000;
     private static int curTime = -1;
 
-    public static void setCurTime(int curTime) {
+    private static void setCurTime(int curTime) {
         ClickUtils.curTime = curTime;
+    }
+
+    public static boolean isFastClick(int curTime, Object deviceId) {
+        ClickUtils.curTime = curTime;
+        return isFastClick(TypeChange.toString(deviceId));
     }
 
     private static HashMap<String, Long> sLastClickTimeMap = new HashMap<>();
 
     public static boolean isFastClick(int deviceId) {
-        return isFastClick(String.valueOf(deviceId));
+        return isFastClick(TypeChange.toString(deviceId));
     }
 
     public static boolean isFastClick(Object deviceId) {
@@ -51,4 +62,26 @@ public class ClickUtils {
         return lastClickTime;
     }
 
+    private static HashMap<String, Boolean> twoClickMap = new HashMap<>();
+
+    public static boolean isTwoClickOutside(Object deviceId) {
+        return isTwoClickOutside(MIN_CLICK_DELAY_TIME, deviceId);
+    }
+
+    public static boolean isTwoClickOutside(int curTime, Object deviceId) {
+        boolean isTwoClick = true;
+        String id = TypeChange.toString(deviceId);
+        boolean isFastClick = isFastClick(curTime, id);
+        if (isFastClick) {
+            if (twoClickMap.get(id) != null && twoClickMap.get(id) == true) {
+                twoClickMap.put(id, false);
+                isTwoClick = false;
+            }
+
+        } else {
+            twoClickMap.put(id, true);
+        }
+
+        return isTwoClick;
+    }
 }

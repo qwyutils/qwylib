@@ -12,6 +12,34 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class TimerUtils {
+    //会立马调用一次
+    public static void startTimerLoop(Object id, ITimer iTimer) {
+        startTimerLoop(TypeChange.toString(id), iTimer);
+    }
+
+    //第一次回调,不返回
+    public static void startTimerLoopTwo(Object id, ITimer iTimer) {
+        startTimerLoopTwo(TypeChange.toString(id), iTimer);
+    }
+
+    //停止定时
+    public static void stopTimerLoop(Object id) {
+        stopTimerLoop(TypeChange.toString(id));
+    }
+
+    //停止所有定时任务
+    public static void stopAll() {
+        List<String> integerList = new ArrayList<>();
+        for (Iterator iter = iTimerHashMap.entrySet().iterator(); iter.hasNext(); ) {
+            Map.Entry element = (Map.Entry) iter.next();
+            Object strKey = element.getKey();
+            String ii = (String) strKey;
+            integerList.add(ii);
+        }
+        for (String ii : integerList) {
+            stopTimerLoop(ii);
+        }
+    }
 
     private static Timer timerLoop;
     private static TimerTask timerLoopTask;
@@ -28,15 +56,8 @@ public class TimerUtils {
 
     private static int timeJG = 1000;
 
-    public static void startTimerLoop(int id, ITimer iTimer) {
-        startTimerLoop(String.valueOf(id), iTimer);
-    }
 
-    public static void startTimerLoop(Object id, ITimer iTimer) {
-        startTimerLoop(TypeChange.toString(id), iTimer);
-    }
-
-    public static void startTimerLoop(final String id, ITimer iTimer) {
+    private static void startTimerLoop(final String id, ITimer iTimer) {
         stopTimerLoop(id);
         iTimerHashMap.put(id, iTimer);
 
@@ -62,16 +83,8 @@ public class TimerUtils {
             timerHashMap.get(id).schedule(timerTaskHashMap.get(id), 0, time_HashMap.get(id));
     }
 
-    public static void stopTimerLoop(Object id) {
-        stopTimerLoop(TypeChange.toString(id));
-    }
 
-
-    public static void stopTimerLoop(int id) {
-        stopTimerLoop(String.valueOf(id));
-    }
-
-    public static void stopTimerLoop(String id) {
+    private static void stopTimerLoop(String id) {
         if (!timerHashMap.containsKey(id)) return;
 
         iTimerHashMap.remove(id);
@@ -99,17 +112,41 @@ public class TimerUtils {
         void event();
     }
 
-    public static void stopAll() {
-        List<String> integerList = new ArrayList<>();
-        for (Iterator iter = iTimerHashMap.entrySet().iterator(); iter.hasNext(); ) {
-            Map.Entry element = (Map.Entry) iter.next();
-            Object strKey = element.getKey();
-            String ii = (String) strKey;
-            integerList.add(ii);
-        }
-        for (String ii : integerList) {
-            stopTimerLoop(ii);
-        }
+
+    private static HashMap<String, Boolean> one_HashMap = new HashMap<>();
+
+    private static void startTimerLoopTwo(final String id, ITimer iTimer) {
+
+        stopTimerLoop(id);
+        iTimerHashMap.put(id, iTimer);
+
+        Timer timerLoop = new Timer();
+        timerHashMap.put(id, timerLoop);
+
+        one_HashMap.put(id, true);
+
+        TimerTask timerLoopTask = new TimerTask() {
+            @Override
+            public void run() {
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (iTimerHashMap.get(id) != null) {
+                            if (one_HashMap.get(id) == true) {
+                                one_HashMap.put(id, false);
+                            } else {
+                                iTimerHashMap.get(id).event();
+                            }
+                        }
+                    }
+                });
+            }
+        };
+        timerTaskHashMap.put(id, timerLoopTask);
+        time_HashMap.put(id, timeJG);
+        timeJG = 1000;
+        if (timerHashMap.get(id) != null && timerTaskHashMap.get(id) != null)
+            timerHashMap.get(id).schedule(timerTaskHashMap.get(id), 0, time_HashMap.get(id));
     }
 
 }

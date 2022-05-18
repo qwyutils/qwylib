@@ -92,12 +92,15 @@ public class EventBusQwy {
         }
     }
 
-    private void invoke(Method method, Object object, Object objectValue) {
-        mainHandler.post(() -> {
-            try {
-                method.invoke(object, objectValue);
-            } catch (Exception e) {
-                e.printStackTrace();
+    private void invoke(final Method method, final Object object, final Object objectValue) {
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    method.invoke(object, objectValue);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
